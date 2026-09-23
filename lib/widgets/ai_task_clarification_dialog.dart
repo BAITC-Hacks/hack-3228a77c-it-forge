@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
@@ -69,16 +70,17 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     final currentQ = _questions[_currentStep];
     final options = currentQ['options'] as List<AiQuestionOption>;
     final selectedSet = _selectedAnswers[_currentStep] ?? <int>{};
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-      insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+      insetPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       child: Container(
-        padding: const EdgeInsets.all(18),
-        constraints: const BoxConstraints(maxWidth: 380),
+        padding: EdgeInsets.all(18),
+        constraints: BoxConstraints(maxWidth: 380),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -87,25 +89,25 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [AppTheme.primary, Color(0xFF712AE2)],
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.auto_awesome,
                     color: Colors.amberAccent,
                     size: 18,
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AppText(
                         'Work.ai AI Архитектор',
                         style: TextStyle(
                           fontFamily: 'Manrope',
@@ -114,13 +116,13 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                           color: AppTheme.textPrimary,
                         ),
                       ),
-                      Text(
+                      AppText(
                         'Тапсырманы нақтылау сұхбаты',
                         style: TextStyle(
                           fontFamily: 'Manrope',
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF712AE2),
+                          color: Color(0xFF712AE2),
                         ),
                       ),
                     ],
@@ -128,21 +130,18 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                 ),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close, size: 20, color: Colors.grey),
+                  icon: Icon(Icons.close, size: 20, color: Colors.grey),
                   padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
+                  constraints: BoxConstraints(),
                 ),
               ],
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
 
             if (!_isFinalSummary) ...[
               // Task Title Context & Step Count
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   color: AppTheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(12),
@@ -153,7 +152,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          AppText(
                             'ТАПСЫРМА:',
                             style: TextStyle(
                               fontSize: 9,
@@ -161,9 +160,10 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                               color: Colors.grey,
                             ),
                           ),
-                          Text(
+                          AppText(
                             widget.taskTitle,
-                            style: const TextStyle(
+                            translate: false,
+                            style: TextStyle(
                               fontSize: 11.5,
                               fontWeight: FontWeight.bold,
                               color: AppTheme.primary,
@@ -175,17 +175,14 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
                         color: Colors.blue.shade100,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Text(
+                      child: AppText(
                         '${_currentStep + 1} / ${_questions.length} сұрақ',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.primary,
@@ -195,7 +192,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               // Progress Bar
               ClipRRect(
@@ -203,17 +200,15 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                 child: LinearProgressIndicator(
                   value: (_currentStep + 1) / _questions.length,
                   backgroundColor: Colors.grey.shade200,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    AppTheme.primary,
-                  ),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
                   minHeight: 4,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
 
               // Question Box
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: AppTheme.surfaceContainerLow,
                   borderRadius: BorderRadius.circular(16),
@@ -224,25 +219,25 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                   children: [
                     Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.auto_awesome,
                           size: 12,
                           color: Color(0xFF712AE2),
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         Expanded(
-                          child: Text(
+                          child: AppText(
                             currentQ['context'] as String,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF712AE2),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding: EdgeInsets.symmetric(
                             horizontal: 6,
                             vertical: 2,
                           ),
@@ -250,7 +245,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                             color: Colors.purple.shade50,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: const Text(
+                          child: AppText(
                             'Көптік таңдау ✓',
                             style: TextStyle(
                               fontSize: 9,
@@ -261,8 +256,8 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 4),
-                    Text(
+                    SizedBox(height: 4),
+                    AppText(
                       currentQ['question'] as String,
                       style: TextStyle(
                         fontFamily: 'Manrope',
@@ -272,8 +267,8 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                         height: 1.3,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
+                    SizedBox(height: 4),
+                    AppText(
                       '💡 Бірнеше вариантты қатар белгілеуге болады',
                       style: TextStyle(
                         fontSize: 10,
@@ -283,7 +278,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10),
 
               // 4 Options: 1, 2, 3 + 4th Custom Option (Multi-Select Enabled)
               Flexible(
@@ -293,16 +288,16 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                     children: options.map((option) {
                       final isSelected = selectedSet.contains(option.id);
                       return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
+                        padding: EdgeInsets.only(bottom: 8),
                         child: InkWell(
                           onTap: () => _toggleOption(option.id),
                           borderRadius: BorderRadius.circular(14),
                           child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 180),
-                            padding: const EdgeInsets.all(10),
+                            duration: Duration(milliseconds: 180),
+                            padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? const Color(0xFFEAEDFF)
+                                  ? Color(0xFFEAEDFF)
                                   : Colors.white,
                               borderRadius: BorderRadius.circular(14),
                               border: Border.all(
@@ -326,9 +321,9 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                           ? AppTheme.primary
                                           : Colors.grey,
                                     ),
-                                    const SizedBox(width: 8),
+                                    SizedBox(width: 8),
                                     Expanded(
-                                      child: Text(
+                                      child: AppText(
                                         option.isCustom
                                             ? '4-нұсқа: Өз ойымды жазамын'
                                             : '${option.id + 1}-нұсқа',
@@ -342,7 +337,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                       ),
                                     ),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(
+                                      padding: EdgeInsets.symmetric(
                                         horizontal: 6,
                                         vertical: 2,
                                       ),
@@ -352,7 +347,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                             : Colors.grey.shade100,
                                         borderRadius: BorderRadius.circular(6),
                                       ),
-                                      child: Text(
+                                      child: AppText(
                                         option.badge,
                                         style: TextStyle(
                                           fontSize: 9,
@@ -365,11 +360,11 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 if (!option.isCustom)
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 24),
-                                    child: Text(
+                                    padding: EdgeInsets.only(left: 24),
+                                    child: AppText(
                                       option.label,
                                       style: TextStyle(
                                         fontSize: 11,
@@ -380,7 +375,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                   ),
                                 if (option.isCustom && isSelected)
                                   Padding(
-                                    padding: const EdgeInsets.only(
+                                    padding: EdgeInsets.only(
                                       top: 8,
                                       left: 6,
                                       right: 6,
@@ -390,21 +385,20 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                           _customControllers[_currentStep],
                                       onChanged: (_) => setState(() {}),
                                       maxLines: 2,
-                                      style: const TextStyle(fontSize: 11),
+                                      style: TextStyle(fontSize: 11),
                                       decoration: InputDecoration(
-                                        hintText:
-                                            'Тапсырмаңызға сәйкес өз нұсқаңызды жазыңыз...',
-                                        hintStyle: const TextStyle(
-                                          fontSize: 10.5,
+                                        hintText: tr(
+                                          'Тапсырмаңызға сәйкес өз нұсқаңызды жазыңыз...',
                                         ),
-                                        contentPadding: const EdgeInsets.all(8),
+                                        hintStyle: TextStyle(fontSize: 10.5),
+                                        contentPadding: EdgeInsets.all(8),
                                         filled: true,
                                         fillColor: Colors.white,
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),
-                                          borderSide: const BorderSide(
+                                          borderSide: BorderSide(
                                             color: AppTheme.primary,
                                           ),
                                         ),
@@ -420,7 +414,7 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
 
               // Action Buttons: Previous & Next / Finish
               Row(
@@ -432,17 +426,14 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 10,
                         ),
                       ),
-                      child: const Text(
-                        '← Артқа',
-                        style: TextStyle(fontSize: 11),
-                      ),
+                      child: AppText('← Артқа', style: TextStyle(fontSize: 11)),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                   ],
                   Expanded(
                     child: ElevatedButton(
@@ -459,16 +450,16 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primary,
                         foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        padding: EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: Text(
+                      child: AppText(
                         _currentStep < _questions.length - 1
                             ? 'Келесі сұрақ →'
                             : 'AI ТЗ-ны бекітіп, жариялау 🚀',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11.5,
                           fontWeight: FontWeight.bold,
                         ),
@@ -480,18 +471,18 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
             ] else ...[
               // Summary Screen
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.green.shade50,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: Colors.green.shade200),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
                     Icon(Icons.check_circle, color: Colors.green, size: 22),
                     SizedBox(width: 8),
                     Expanded(
-                      child: Text(
+                      child: AppText(
                         'Техникалық тапсырма (ТЗ) толық бекітілді!',
                         style: TextStyle(
                           fontSize: 12,
@@ -503,11 +494,11 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                   ],
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Flexible(
                 child: SingleChildScrollView(
                   child: Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppTheme.surfaceContainerLow,
                       borderRadius: BorderRadius.circular(16),
@@ -516,31 +507,33 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AppText(
                           widget.taskTitle,
-                          style: const TextStyle(
+                          translate: false,
+                          style: TextStyle(
                             fontSize: 12.5,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'Бюджет: ${widget.budget.isEmpty ? 'Келісім бойынша' : '${widget.budget} ₸'}  ·  Мерзімі: ${widget.duration.isEmpty ? 'Келісім бойынша' : widget.duration}',
-                          style: const TextStyle(
+                        SizedBox(height: 6),
+                        AppText(
+                          '${tr('Бюджет')}: ${widget.budget.isEmpty ? tr('Келісім бойынша') : '${widget.budget} ₸'}  ·  ${tr('Мерзімі')}: ${widget.duration.isEmpty ? tr('Келісім бойынша') : widget.duration}',
+                          translate: false,
+                          style: TextStyle(
                             fontSize: 11,
                             color: AppTheme.primary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const Divider(height: 16),
+                        Divider(height: 16),
                         for (
                           var index = 0;
                           index < _questions.length;
                           index++
                         ) ...[
-                          Text(
+                          AppText(
                             _questions[index]['context'] as String,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w700,
                             ),
@@ -550,20 +543,21 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                                   as List<AiQuestionOption>)
                             if (_selectedAnswers[index]!.contains(option.id))
                               Padding(
-                                padding: const EdgeInsets.only(top: 4),
-                                child: Text(
-                                  '• ${option.isCustom ? _customControllers[index]!.text.trim() : option.label}',
-                                  style: const TextStyle(fontSize: 10.5),
+                                padding: EdgeInsets.only(top: 4),
+                                child: AppText(
+                                  '• ${option.isCustom ? _customControllers[index]!.text.trim() : tr(option.label)}',
+                                  translate: false,
+                                  style: TextStyle(fontSize: 10.5),
                                 ),
                               ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                         ],
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -572,12 +566,12 @@ class _AiTaskClarificationDialogState extends State<AiTaskClarificationDialog> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primary,
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: const Text(
+                child: AppText(
                   'Тапсырмалар лентасынан көру',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),

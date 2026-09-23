@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'application_form_screen.dart';
@@ -18,6 +19,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
@@ -37,7 +39,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                   color: AppTheme.primary,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text(
+                child: AppText(
                   'W',
                   style: TextStyle(
                     color: Colors.white,
@@ -47,7 +49,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                 ),
               ),
               SizedBox(width: 8),
-              Text(
+              AppText(
                 'Vacancy Detail',
                 style: TextStyle(
                   fontSize: 17,
@@ -94,33 +96,33 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                 _buildLocationSection(),
               ] else
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   child: Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AppText(
                             'Бизнес мәселесі және контекст',
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
-                          const SizedBox(height: 12),
-                          Text(
+                          SizedBox(height: 12),
+                          AppText(
                             challenge.fullProblemContext.isEmpty
                                 ? challenge.description
                                 : challenge.fullProblemContext,
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 16),
                           Wrap(
                             spacing: 6,
                             runSpacing: 6,
                             children: challenge.tags
-                                .map((tag) => Chip(label: Text(tag)))
+                                .map((tag) => Chip(label: AppText(tag)))
                                 .toList(),
                           ),
-                          const SizedBox(height: 16),
-                          Text(challenge.location),
+                          SizedBox(height: 16),
+                          AppText(challenge.location),
                         ],
                       ),
                     ),
@@ -153,7 +155,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                     color: AppTheme.onSurfaceVariant,
                   ),
                   SizedBox(width: 4),
-                  Text(
+                  AppText(
                     'Бүгін, 10:45',
                     style: TextStyle(
                       fontSize: 12,
@@ -170,7 +172,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                     color: AppTheme.onSurfaceVariant,
                   ),
                   SizedBox(width: 4),
-                  Text(
+                  AppText(
                     '418 қаралым',
                     style: TextStyle(
                       fontSize: 12,
@@ -182,7 +184,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
             ],
           ),
           SizedBox(height: 10),
-          Text(
+          AppText(
             challenge.title,
             style: TextStyle(
               fontSize: 20,
@@ -195,7 +197,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(
+              AppText(
                 challenge.salaryRange,
                 style: TextStyle(
                   fontSize: 20,
@@ -204,7 +206,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                 ),
               ),
               SizedBox(width: 6),
-              Text(
+              AppText(
                 'қолына / келісім бойынша',
                 style: TextStyle(
                   fontSize: 13,
@@ -231,7 +233,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
-                    child: Text(
+                    child: AppText(
                       'A',
                       style: TextStyle(
                         fontSize: 20,
@@ -249,7 +251,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                       Row(
                         children: [
                           Flexible(
-                            child: Text(
+                            child: AppText(
                               challenge.companyName,
                               style: TextStyle(
                                 fontSize: 13.5,
@@ -272,7 +274,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                         children: [
                           Icon(Icons.star, size: 14, color: AppTheme.goldStar),
                           SizedBox(width: 2),
-                          Text(
+                          AppText(
                             '4.8',
                             style: TextStyle(
                               fontSize: 12,
@@ -281,7 +283,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                             ),
                           ),
                           SizedBox(width: 4),
-                          Text(
+                          AppText(
                             '· 24 пікір',
                             style: TextStyle(
                               fontSize: 12,
@@ -303,7 +305,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   ),
-                  child: Text(
+                  child: AppText(
                     'Компания',
                     style: TextStyle(
                       color: AppTheme.primary,
@@ -340,7 +342,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                     );
                   },
                   icon: Icon(Icons.send, size: 18),
-                  label: Text('Үн қату (Жауап жіберу)'),
+                  label: AppText('Үн қату (Жауап жіберу)'),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 14),
                   ),
@@ -382,7 +384,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
           Icon(icon, size: 17, color: AppTheme.onSurfaceVariant),
           SizedBox(width: 8),
           Expanded(
-            child: Text(
+            child: AppText(
               text,
               style: TextStyle(fontSize: 13, color: AppTheme.onSurfaceVariant),
             ),
@@ -418,7 +420,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text(
+                      child: AppText(
                         'AI Тексеруден өткен жоба',
                         style: TextStyle(
                           fontSize: 13.5,
@@ -433,7 +435,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                         color: AppTheme.secondary,
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(
+                      child: AppText(
                         '91/100',
                         style: TextStyle(
                           color: Colors.white,
@@ -445,7 +447,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                   ],
                 ),
                 SizedBox(height: 4),
-                Text(
+                AppText(
                   'Мәселенің нақтылығы, берілетін деректер және бағалау критерийлері толық расталған.',
                   style: TextStyle(
                     fontSize: 12,
@@ -466,14 +468,14 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                 Wrap(
                   spacing: 12,
                   children: [
-                    Text(
+                    AppText(
                       'Сенімділік индексі: Жоғары',
                       style: TextStyle(
                         fontSize: 10.5,
                         color: AppTheme.onSurfaceVariant,
                       ),
                     ),
-                    Text(
+                    AppText(
                       'Төлем кепілдендірілген',
                       style: TextStyle(
                         fontSize: 10.5,
@@ -506,7 +508,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
               Icon(Icons.troubleshoot, color: AppTheme.primary, size: 20),
               SizedBox(width: 8),
               Expanded(
-                child: Text(
+                child: AppText(
                   '1. Бизнес мәселесі және контекст',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -539,7 +541,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                       color: Colors.black.withValues(alpha: 0.7),
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Text(
+                    child: AppText(
                       'Кептеліс сынағы: Таңғы 07:30 – 10:30',
                       style: TextStyle(color: Colors.white, fontSize: 11),
                     ),
@@ -549,7 +551,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
             ),
           ),
           SizedBox(height: 12),
-          Text(
+          AppText(
             'Алматыдағы 42 жүк көлігіміз күн сайын таңертең кептелісте 3 сағатқа дейін тұрып қалады. Жеткізу бағыттары қолмен бекітілетіндіктен, жанармай шығыны 28%-ға өсті.',
             style: TextStyle(
               fontSize: 13.5,
@@ -604,11 +606,11 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
           children: [
             Icon(icon, size: 18, color: color),
             SizedBox(height: 4),
-            Text(
+            AppText(
               value,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            Text(
+            AppText(
               label,
               style: TextStyle(fontSize: 11, color: AppTheme.onSurfaceVariant),
             ),
@@ -638,7 +640,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
               ),
               SizedBox(width: 8),
               Expanded(
-                child: Text(
+                child: AppText(
                   '2. Командадан күтілетін нәтиже',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
@@ -681,7 +683,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
             CircleAvatar(
               radius: 12,
               backgroundColor: AppTheme.primary.withValues(alpha: 0.15),
-              child: Text(
+              child: AppText(
                 '$index',
                 style: TextStyle(
                   fontSize: 11,
@@ -695,7 +697,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppText(
                     title,
                     style: TextStyle(
                       fontSize: 13.5,
@@ -703,7 +705,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                     ),
                   ),
                   SizedBox(height: 2),
-                  Text(
+                  AppText(
                     desc,
                     style: TextStyle(
                       fontSize: 12,
@@ -734,7 +736,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
             children: [
               Icon(Icons.storage, color: AppTheme.primary, size: 20),
               SizedBox(width: 8),
-              Text(
+              AppText(
                 '3. Ұсынылатын деректер мен ресурстар',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -764,7 +766,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
           Icon(Icons.check_circle, size: 18, color: AppTheme.tertiary),
           SizedBox(width: 8),
           Expanded(
-            child: Text(
+            child: AppText(
               text,
               style: TextStyle(
                 fontSize: 13,
@@ -803,14 +805,14 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
             children: [
               Icon(Icons.psychology, color: AppTheme.primary, size: 20),
               SizedBox(width: 8),
-              Text(
+              AppText(
                 '4. Негізгі талаптар мен дағдылар',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),
           SizedBox(height: 6),
-          Text(
+          AppText(
             'Жобаға жеке маман немесе 2-4 адамнан құралған студенттік/инженерлік командалар қатыса алады.',
             style: TextStyle(fontSize: 12.5, color: AppTheme.onSurfaceVariant),
           ),
@@ -828,7 +830,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                       : AppTheme.surfaceContainerHigh,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text(
+                child: AppText(
                   skill,
                   style: TextStyle(
                     fontSize: 12.5,
@@ -862,13 +864,13 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                 children: [
                   Icon(Icons.map_outlined, color: AppTheme.primary, size: 20),
                   SizedBox(width: 8),
-                  Text(
+                  AppText(
                     'Орналасқан жері',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              Text(
+              AppText(
                 'Алматы',
                 style: TextStyle(
                   fontSize: 12,
@@ -889,7 +891,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.location_on, size: 36, color: AppTheme.primary),
-                  Text(
+                  AppText(
                     'Достық даңғылы, 180',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   ),
@@ -926,7 +928,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AppText(
                       challenge.salaryRange,
                       style: TextStyle(
                         fontSize: 16,
@@ -934,7 +936,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                         color: AppTheme.onSurface,
                       ),
                     ),
-                    Text(
+                    AppText(
                       challenge.companyName,
                       style: TextStyle(
                         fontSize: 11.5,
@@ -955,7 +957,7 @@ class _VacancyDetailScreenState extends State<VacancyDetailScreen> {
                   );
                 },
                 icon: Icon(Icons.send, size: 16),
-                label: Text('Үн қату'),
+                label: AppText('Үн қату'),
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 ),

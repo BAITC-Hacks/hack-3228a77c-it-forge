@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import 'new_task_screen.dart';
@@ -7,21 +8,22 @@ class EmployerProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 18,
             color: AppTheme.primary,
           ),
           onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Артқа қайту',
+          tooltip: tr('Артқа қайту'),
         ),
-        title: const Text(
+        title: AppText(
           'Кәсіпкер кабинеті (Бизнес)',
           style: TextStyle(
             fontSize: 16,
@@ -31,19 +33,19 @@ class EmployerProfileScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.tune, color: AppTheme.onSurfaceVariant),
+            icon: Icon(Icons.tune, color: AppTheme.onSurfaceVariant),
             onPressed: () {},
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Company Profile Card
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -51,7 +53,7 @@ class EmployerProfileScreen extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    offset: Offset(0, 4),
                   ),
                 ],
               ),
@@ -66,18 +68,18 @@ class EmployerProfileScreen extends StatelessWidget {
                           color: AppTheme.primary,
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.local_shipping,
                           color: Colors.white,
                           size: 30,
                         ),
                       ),
-                      const SizedBox(width: 14),
+                      SizedBox(width: 14),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Text(
+                          children: [
+                            AppText(
                               'Aibek Logistics & Supply',
                               style: TextStyle(
                                 fontSize: 16,
@@ -85,7 +87,7 @@ class EmployerProfileScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(height: 2),
-                            Text(
+                            AppText(
                               'Айбек Сейітов · Бас директор',
                               style: TextStyle(
                                 fontSize: 12,
@@ -102,7 +104,7 @@ class EmployerProfileScreen extends StatelessWidget {
                                 ),
                                 SizedBox(width: 4),
                                 Flexible(
-                                  child: Text(
+                                  child: AppText(
                                     'Тексерілген компания (БСН 190440012)',
                                     style: TextStyle(
                                       fontSize: 11,
@@ -117,11 +119,11 @@ class EmployerProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Divider(height: 24),
+                  Divider(height: 24),
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      const Text(
+                      AppText(
                         'Рөл: Жұмыс беруші',
                         style: TextStyle(
                           fontSize: 12,
@@ -131,8 +133,8 @@ class EmployerProfileScreen extends StatelessWidget {
                       TextButton.icon(
                         onPressed: () =>
                             Navigator.pushNamed(context, '/student'),
-                        icon: const Icon(Icons.school, size: 16),
-                        label: const Text(
+                        icon: Icon(Icons.school, size: 16),
+                        label: AppText(
                           'Студент режиміне өту',
                           style: TextStyle(fontSize: 12),
                         ),
@@ -142,26 +144,26 @@ class EmployerProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
 
             // Escrow Balance Box
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [Color(0xFF0F172A), Color(0xFF1E293B)],
                 ),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  AppText(
                     'Қорғалған Смарт-Эскроу Балансы',
                     style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                   SizedBox(height: 6),
-                  Text(
+                  AppText(
                     '3 400 000 ₸',
                     style: TextStyle(
                       color: Colors.white,
@@ -170,14 +172,14 @@ class EmployerProfileScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 4),
-                  Text(
+                  AppText(
                     'Студенттер тапсырманы орындап өткізгенде ғана төленеді.',
                     style: TextStyle(color: Colors.white60, fontSize: 11),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
 
             // Post New Task Button
             SizedBox(
@@ -187,7 +189,7 @@ class EmployerProfileScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const NewTaskScreen()),
+                    MaterialPageRoute(builder: (_) => NewTaskScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -197,17 +199,17 @@ class EmployerProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
-                icon: const Icon(Icons.add_task),
-                label: const Text(
+                icon: Icon(Icons.add_task),
+                label: AppText(
                   '+ Жаңа тапсырма жариялау',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             // Active Challenges Posted
-            const Text(
+            AppText(
               'Жарияланған белсенді тапсырмалар (2)',
               style: TextStyle(
                 fontSize: 14,
@@ -215,22 +217,22 @@ class EmployerProfileScreen extends StatelessWidget {
                 color: AppTheme.onSurface,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
             _buildChallengeCard(
               title: '42 жүк көлігінің бағытын AI арқылы оңтайландыру',
               budget: '850 000 ₸',
               responses: '24 үн қату',
               status: 'Белсенді',
-              statusColor: const Color(0xFF10B981),
+              statusColor: Color(0xFF10B981),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             _buildChallengeCard(
               title: 'С қоймасындағы тауар есебін CV арқылы автоматтандыру',
               budget: '1 200 000 ₸',
               responses: '11 үн қату',
               status: 'Қаралуда',
-              statusColor: const Color(0xFFF59E0B),
+              statusColor: Color(0xFFF59E0B),
             ),
           ],
         ),
@@ -246,11 +248,11 @@ class EmployerProfileScreen extends StatelessWidget {
     required Color statusColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: Color(0xFFE2E8F0)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,12 +261,12 @@ class EmployerProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: statusColor.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(
+                child: AppText(
                   status,
                   style: TextStyle(
                     color: statusColor,
@@ -273,32 +275,32 @@ class EmployerProfileScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
+              AppText(
                 budget,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: AppTheme.primary,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(
+          SizedBox(height: 8),
+          AppText(
             title,
-            style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              AppText(
                 responses,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11.5,
                   color: AppTheme.onSurfaceVariant,
                 ),
               ),
-              const Text(
+              AppText(
                 'Кандидаттарды қарау →',
                 style: TextStyle(
                   fontSize: 11.5,

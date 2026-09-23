@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../models/job_challenge.dart';
@@ -34,10 +35,11 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     final query = _searchController.text.trim().toLowerCase();
     final challenges = JobChallenge.sampleChallenges.where((item) {
       final searchable =
-          '${item.title} ${item.companyName} ${item.tags.join(' ')}'
+          '${item.title} ${tr(item.title)} ${item.companyName} ${item.tags.join(' ')} ${item.tags.map(tr).join(' ')}'
               .toLowerCase();
       final matchesCategory = switch (_selectedFilterIndex) {
         2 => item.tags.contains('Логистика'),
@@ -51,27 +53,27 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
       backgroundColor: AppTheme.surface,
       appBar: _buildAppBar(),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         children: [
           _buildSearchBar(),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _buildFilterChips(),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _buildAiSmartBanner(),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _buildResultsCounter(challenges.length),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           ...challenges.map((challenge) => _buildChallengeCard(challenge)),
           if (challenges.isEmpty)
-            const Padding(
+            Padding(
               padding: EdgeInsets.all(24),
-              child: Text(
+              child: AppText(
                 'Сұрауыңызға сәйкес жоба табылмады. Басқа сөзбен іздеп көріңіз.',
               ),
             ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _buildAiResumeScannerPrompt(),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
         ],
       ),
     );
@@ -89,12 +91,12 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(6),
+              padding: EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: AppTheme.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
+              child: AppText(
                 'W',
                 style: TextStyle(
                   color: Colors.white,
@@ -103,9 +105,9 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             RichText(
-              text: const TextSpan(
+              text: TextSpan(
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -123,17 +125,17 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                 ],
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               decoration: BoxDecoration(
                 color: AppTheme.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  AppText(
                     'Алматы',
                     style: TextStyle(
                       fontSize: 12,
@@ -150,17 +152,14 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.search, color: AppTheme.onSurface),
+          icon: Icon(Icons.search, color: AppTheme.onSurface),
           onPressed: () => _searchFocus.requestFocus(),
         ),
         Stack(
           alignment: Alignment.center,
           children: [
             IconButton(
-              icon: const Icon(
-                Icons.notifications_none,
-                color: AppTheme.onSurface,
-              ),
+              icon: Icon(Icons.notifications_none, color: AppTheme.onSurface),
               onPressed: () => Navigator.pushNamed(context, '/responses'),
             ),
             Positioned(
@@ -169,7 +168,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               child: Container(
                 width: 8,
                 height: 8,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: AppTheme.error,
                   shape: BoxShape.circle,
                 ),
@@ -178,13 +177,13 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 16, left: 4),
+          padding: EdgeInsets.only(right: 16, left: 4),
           child: InkWell(
             onTap: () => Navigator.pushNamed(context, '/auth'),
             child: CircleAvatar(
               radius: 16,
               backgroundColor: AppTheme.primary,
-              child: const Icon(Icons.person, color: Colors.white, size: 18),
+              child: Icon(Icons.person, color: Colors.white, size: 18),
             ),
           ),
         ),
@@ -202,37 +201,33 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               color: AppTheme.surfaceContainerLow,
               borderRadius: BorderRadius.circular(12),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: EdgeInsets.symmetric(horizontal: 12),
             child: Row(
               children: [
-                const Icon(Icons.search, color: AppTheme.outline, size: 20),
-                const SizedBox(width: 8),
+                Icon(Icons.search, color: AppTheme.outline, size: 20),
+                SizedBox(width: 8),
                 Expanded(
                   child: TextField(
                     controller: _searchController,
                     focusNode: _searchFocus,
                     onChanged: (_) => setState(() {}),
-                    decoration: const InputDecoration(
-                      hintText: 'Логистика және AI',
+                    decoration: InputDecoration(
+                      hintText: tr('Логистика және AI'),
                       border: InputBorder.none,
                       isDense: true,
                     ),
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: 14),
                   ),
                 ),
                 GestureDetector(
                   onTap: () => setState(() => _searchController.clear()),
-                  child: const Icon(
-                    Icons.close,
-                    color: AppTheme.outline,
-                    size: 18,
-                  ),
+                  child: Icon(Icons.close, color: AppTheme.outline, size: 18),
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         Container(
           width: 48,
           height: 48,
@@ -243,17 +238,17 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              const Icon(Icons.tune, color: Colors.white, size: 20),
+              Icon(Icons.tune, color: Colors.white, size: 20),
               Positioned(
                 top: 6,
                 right: 6,
                 child: Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: const BoxDecoration(
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
                     color: AppTheme.secondary,
                     shape: BoxShape.circle,
                   ),
-                  child: const Text(
+                  child: AppText(
                     '2',
                     style: TextStyle(
                       color: Colors.white,
@@ -276,7 +271,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _filterChips.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => SizedBox(width: 8),
         itemBuilder: (context, index) {
           final isSelected = _selectedFilterIndex == index;
           return ChoiceChip(
@@ -284,10 +279,10 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (index == 1) ...[
-                  const Icon(Icons.auto_awesome, size: 14, color: Colors.white),
-                  const SizedBox(width: 4),
+                  Icon(Icons.auto_awesome, size: 14, color: Colors.white),
+                  SizedBox(width: 4),
                 ],
-                Text(_filterChips[index]),
+                AppText(_filterChips[index]),
               ],
             ),
             selected: isSelected,
@@ -315,7 +310,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
   Widget _buildAiSmartBanner() {
     return Container(
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
             AppTheme.primaryContainer,
             AppTheme.secondaryContainer,
@@ -329,11 +324,11 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
           BoxShadow(
             color: AppTheme.primary.withValues(alpha: 0.2),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -341,16 +336,16 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
                     Icon(Icons.bolt, color: Colors.white, size: 14),
                     SizedBox(width: 4),
-                    Text(
+                    AppText(
                       'Work.ai AI Іріктеу',
                       style: TextStyle(
                         color: Colors.white,
@@ -361,14 +356,14 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                   ],
                 ),
               ),
-              const Text(
+              AppText(
                 '142 жаңа тапсырма',
                 style: TextStyle(color: Colors.white70, fontSize: 11),
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          const Text(
+          SizedBox(height: 10),
+          AppText(
             'Студенттер мен мамандар үшін нақты бизнес мәселелері мен жобалар',
             style: TextStyle(
               color: Colors.white,
@@ -377,8 +372,8 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               height: 1.3,
             ),
           ),
-          const SizedBox(height: 6),
-          const Text(
+          SizedBox(height: 6),
+          AppText(
             'Дайындығыңызды AI тесттерімен тексеріп, компаниялардан тікелей грант немесе офер ұтып алыңыз.',
             style: TextStyle(color: Colors.white70, fontSize: 12.5),
           ),
@@ -392,7 +387,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Text(
+          child: AppText(
             'Табылғаны: $count вакансия мен тапсырма',
             style: TextStyle(
               fontSize: 12.5,
@@ -401,10 +396,10 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12),
         Row(
-          children: const [
-            Text(
+          children: [
+            AppText(
               'Күні бойынша',
               style: TextStyle(
                 fontSize: 12.5,
@@ -423,7 +418,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
     final isBookmarked = _bookmarkedIds.contains(challenge.id);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
+      margin: EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(16),
@@ -431,11 +426,11 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 8,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -448,17 +443,14 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                   children: challenge.badges.map((b) {
                     final isFire = b.contains('Шұғыл');
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
                         color: isFire
                             ? AppTheme.tertiary
                             : AppTheme.surfaceContainer,
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      child: Text(
+                      child: AppText(
                         b,
                         style: TextStyle(
                           fontSize: 11,
@@ -488,7 +480,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -499,9 +491,9 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                 ),
               );
             },
-            child: Text(
+            child: AppText(
               challenge.title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16.5,
                 fontWeight: FontWeight.bold,
                 color: AppTheme.onSurface,
@@ -509,58 +501,58 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           Row(
             children: [
               Flexible(
-                child: Text(
+                child: AppText(
                   challenge.companyName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppTheme.onSurfaceVariant,
                   ),
                 ),
               ),
-              const SizedBox(width: 4),
-              const Icon(Icons.verified, size: 16, color: AppTheme.primary),
+              SizedBox(width: 4),
+              Icon(Icons.verified, size: 16, color: AppTheme.primary),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(
+              AppText(
                 challenge.salaryRange,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.primary,
                 ),
               ),
-              const SizedBox(width: 6),
-              Text(
+              SizedBox(width: 6),
+              AppText(
                 challenge.grantType,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   color: AppTheme.onSurfaceVariant,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.location_on_outlined,
                 size: 15,
                 color: AppTheme.outline,
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               Expanded(
-                child: Text(
+                child: AppText(
                   challenge.location,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
                     color: AppTheme.onSurfaceVariant,
                   ),
@@ -568,10 +560,10 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           // AI Match Bar
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: AppTheme.surfaceContainerLow,
               borderRadius: BorderRadius.circular(10),
@@ -581,31 +573,31 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                 CircleAvatar(
                   radius: 16,
                   backgroundColor: AppTheme.primary,
-                  child: Text(
+                  child: AppText(
                     '${challenge.aiMatchScore}%',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AppText(
                         'AI Дайындық индексі: ${challenge.aiMatchScore}/100',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: AppTheme.onSurface,
                         ),
                       ),
-                      Text(
+                      AppText(
                         challenge.matchDescription,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                           color: AppTheme.tertiary,
@@ -614,41 +606,31 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                     ],
                   ),
                 ),
-                const Icon(
-                  Icons.auto_awesome,
-                  size: 18,
-                  color: AppTheme.secondary,
-                ),
+                Icon(Icons.auto_awesome, size: 18, color: AppTheme.secondary),
               ],
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
+          SizedBox(height: 8),
+          AppText(
             challenge.description,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 13,
-              color: AppTheme.onSurfaceVariant,
-            ),
+            style: TextStyle(fontSize: 13, color: AppTheme.onSurfaceVariant),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: challenge.tags.map((tag) {
               return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: AppTheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Text(
+                child: AppText(
                   tag,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11.5,
                     fontWeight: FontWeight.w500,
                     color: AppTheme.onSurface,
@@ -657,7 +639,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               );
             }).toList(),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Wrap(
             spacing: 12,
             runSpacing: 4,
@@ -665,20 +647,17 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.schedule, size: 14, color: AppTheme.outline),
-                  const SizedBox(width: 4),
-                  Text(
+                  Icon(Icons.schedule, size: 14, color: AppTheme.outline),
+                  SizedBox(width: 4),
+                  AppText(
                     challenge.postedTime,
-                    style: const TextStyle(
-                      fontSize: 11.5,
-                      color: AppTheme.outline,
-                    ),
+                    style: TextStyle(fontSize: 11.5, color: AppTheme.outline),
                   ),
                 ],
               ),
-              Text(
+              AppText(
                 challenge.responsesCount,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.secondary,
@@ -686,7 +665,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
               Expanded(
@@ -701,15 +680,15 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                       ),
                     );
                   },
-                  icon: const Icon(Icons.send, size: 16),
-                  label: const Text('Үн қату (Откликнуться)'),
+                  icon: Icon(Icons.send, size: 16),
+                  label: AppText('Үн қату (Откликнуться)'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppTheme.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    padding: EdgeInsets.symmetric(vertical: 12),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               Expanded(
                 flex: 1,
                 child: Container(
@@ -719,7 +698,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: IconButton(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.chat_bubble_outline,
                       color: AppTheme.primary,
                       size: 20,
@@ -737,7 +716,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
 
   Widget _buildAiResumeScannerPrompt() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(16),
@@ -747,14 +726,14 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
           CircleAvatar(
             radius: 20,
             backgroundColor: AppTheme.secondaryContainer,
-            child: const Icon(Icons.smart_toy, color: Colors.white, size: 20),
+            child: Icon(Icons.smart_toy, color: Colors.white, size: 20),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                AppText(
                   'Өз дағдыларыңызға сәйкес тапқыңыз келе ме?',
                   style: TextStyle(
                     fontSize: 13,
@@ -763,7 +742,7 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
                   ),
                 ),
                 SizedBox(height: 2),
-                Text(
+                AppText(
                   'Work.ai түйіндемеңізді сканерлеп, 90%+ сәйкес келетін тапсырмаларды ұсынады.',
                   style: TextStyle(
                     fontSize: 12,
@@ -773,17 +752,17 @@ class _HomeFeedScreenState extends State<HomeFeedScreen> {
               ],
             ),
           ),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
               backgroundColor: AppTheme.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: const Text('Талдау', style: TextStyle(fontSize: 12)),
+            child: AppText('Талдау', style: TextStyle(fontSize: 12)),
           ),
         ],
       ),

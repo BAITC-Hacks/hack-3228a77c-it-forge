@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
@@ -13,7 +14,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool _isPhoneMode = true;
   bool _isPasswordHidden = true;
   bool _rememberMe = true;
-  String _selectedLang = 'KZ';
+  String get _selectedLang => AppLanguage.instance.code;
 
   final TextEditingController _credentialController = TextEditingController(
     text: '+7 (700) 123-45-67',
@@ -31,6 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
@@ -39,12 +41,12 @@ class _AuthScreenState extends State<AuthScreen> {
         title: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(6),
+              padding: EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: AppTheme.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Text(
+              child: AppText(
                 'W',
                 style: TextStyle(
                   color: Colors.white,
@@ -53,8 +55,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
-            const Text(
+            SizedBox(width: 8),
+            AppText(
               'Work.ai',
               style: TextStyle(
                 fontSize: 18,
@@ -64,25 +66,25 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ],
         ),
-        actions: [_buildLanguageSelector(), const SizedBox(width: 12)],
+        actions: [_buildLanguageSelector(), SizedBox(width: 12)],
       ),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         children: [
           _buildHeroHeader(),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           _buildLanguagePillRow(),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           _buildRoleSelector(),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           _buildPerkBanner(),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           _buildInstantCvUploadCard(),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           _buildMainAuthCard(),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           _buildComplianceFooter(),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
         ],
       ),
     );
@@ -94,19 +96,19 @@ class _AuthScreenState extends State<AuthScreen> {
         color: AppTheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(20),
       ),
-      padding: const EdgeInsets.all(2),
+      padding: EdgeInsets.all(2),
       child: Row(
         children: ['KZ', 'RU', 'EN'].map((lang) {
           final isSelected = _selectedLang == lang;
           return GestureDetector(
-            onTap: () => setState(() => _selectedLang = lang),
+            onTap: () => AppLanguage.instance.select(lang),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: isSelected ? AppTheme.primary : Colors.transparent,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Text(
+              child: AppText(
                 lang,
                 style: TextStyle(
                   fontSize: 11.5,
@@ -125,17 +127,17 @@ class _AuthScreenState extends State<AuthScreen> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
             color: AppTheme.surfaceContainerHigh,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Icon(Icons.auto_awesome, size: 14, color: AppTheme.secondary),
               SizedBox(width: 4),
-              Text(
+              AppText(
                 'WORK.AI COPILOT V2.4',
                 style: TextStyle(
                   fontSize: 11,
@@ -147,8 +149,8 @@ class _AuthScreenState extends State<AuthScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 8),
-        const Text(
+        SizedBox(height: 8),
+        AppText(
           'Болашақ жұмыс кеңістігі',
           style: TextStyle(
             fontSize: 24,
@@ -157,8 +159,8 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
           textAlign: TextAlign.center,
         ),
-        const SizedBox(height: 4),
-        const Text(
+        SizedBox(height: 4),
+        AppText(
           'Қазақстандағы бизнес мәселелерін шешуге арналған жасанды интеллект платформасы',
           style: TextStyle(fontSize: 12.5, color: AppTheme.onSurfaceVariant),
           textAlign: TextAlign.center,
@@ -172,9 +174,9 @@ class _AuthScreenState extends State<AuthScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildLangButton('🇰🇿 ҚАЗ', 'KZ'),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         _buildLangButton('🇷🇺 РУС', 'RU'),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         _buildLangButton('🇬🇧 ENG', 'EN'),
       ],
     );
@@ -183,14 +185,14 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget _buildLangButton(String title, String code) {
     final isSelected = _selectedLang == code;
     return GestureDetector(
-      onTap: () => setState(() => _selectedLang = code),
+      onTap: () => AppLanguage.instance.select(code),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? AppTheme.primary : AppTheme.surfaceContainer,
           borderRadius: BorderRadius.circular(18),
         ),
-        child: Text(
+        child: AppText(
           title,
           style: TextStyle(
             fontSize: 12,
@@ -204,7 +206,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Widget _buildRoleSelector() {
     return Container(
-      padding: const EdgeInsets.all(4),
+      padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(14),
@@ -245,7 +247,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return GestureDetector(
       onTap: () => setState(() => _selectedRoleIndex = index),
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 8),
         decoration: BoxDecoration(
           color: isSelected ? Colors.white : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
@@ -264,9 +266,9 @@ class _AuthScreenState extends State<AuthScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(icon, size: 16, color: color),
-                const SizedBox(width: 4),
+                SizedBox(width: 4),
                 Flexible(
-                  child: Text(
+                  child: AppText(
                     title,
                     style: TextStyle(
                       fontSize: 12,
@@ -277,10 +279,10 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 2),
-            Text(
+            SizedBox(height: 2),
+            AppText(
               subtitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10.5,
                 color: AppTheme.onSurfaceVariant,
               ),
@@ -294,7 +296,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget _buildPerkBanner() {
     final isTalent = _selectedRoleIndex == 0;
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(12),
@@ -304,27 +306,24 @@ class _AuthScreenState extends State<AuthScreen> {
           CircleAvatar(
             radius: 16,
             backgroundColor: AppTheme.secondary,
-            child: const Icon(Icons.bolt, color: Colors.white, size: 18),
+            child: Icon(Icons.bolt, color: Colors.white, size: 18),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   isTalent
                       ? 'AI Smart Match 98.4% дәлдікпен'
                       : 'AI арқылы кейстерді генерациялау',
-                  style: const TextStyle(
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold),
                 ),
-                Text(
+                AppText(
                   isTalent
                       ? 'Дағдыларыңыз бен портфолиоңызды автоматты бағалау'
                       : '5000+ дайын үздік студенттерге тапсырма ұсыну',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 11,
                     color: AppTheme.onSurfaceVariant,
                   ),
@@ -332,7 +331,7 @@ class _AuthScreenState extends State<AuthScreen> {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, size: 18, color: AppTheme.outline),
+          Icon(Icons.chevron_right, size: 18, color: AppTheme.outline),
         ],
       ),
     );
@@ -340,7 +339,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Widget _buildInstantCvUploadCard() {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(16),
@@ -351,37 +350,41 @@ class _AuthScreenState extends State<AuthScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: AppTheme.secondaryContainer,
-                      borderRadius: BorderRadius.circular(8),
+              Expanded(
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.secondaryContainer,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        Icons.auto_fix_high,
+                        color: Colors.white,
+                        size: 16,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.auto_fix_high,
-                      color: Colors.white,
-                      size: 16,
+                    SizedBox(width: 8),
+                    Flexible(
+                      child: AppText(
+                        '10 секундта AI Тіркелу',
+                        style: TextStyle(
+                          fontSize: 13.5,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    '10 секундта AI Тіркелу',
-                    style: TextStyle(
-                      fontSize: 13.5,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppTheme.tertiaryFixed,
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: const Text(
+                child: AppText(
                   'NEW',
                   style: TextStyle(
                     fontSize: 10,
@@ -392,28 +395,28 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 4),
-          const Text(
+          SizedBox(height: 4),
+          AppText(
             'Резюмеңізді жүктеп, сауалнамасыз кіріңіз',
             style: TextStyle(fontSize: 11.5, color: AppTheme.onSurfaceVariant),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           InkWell(
             onTap: () {},
             borderRadius: BorderRadius.circular(8),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
                 color: AppTheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(Icons.upload_file, color: AppTheme.primary, size: 18),
                   SizedBox(width: 6),
                   Flexible(
-                    child: Text(
+                    child: AppText(
                       'Резюме (.PDF, .DOCX) жүктеу немесе суретін жіберу',
                       style: TextStyle(
                         fontSize: 12,
@@ -433,7 +436,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Widget _buildMainAuthCard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppTheme.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(16),
@@ -450,7 +453,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   color: AppTheme.surfaceContainer,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: const EdgeInsets.all(2),
+                padding: EdgeInsets.all(2),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -469,8 +472,8 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               TextButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.sms_outlined, size: 14),
-                label: const Text(
+                icon: Icon(Icons.sms_outlined, size: 14),
+                label: AppText(
                   'SMS кодпен кіру',
                   style: TextStyle(fontSize: 11.5),
                 ),
@@ -480,18 +483,15 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
+          SizedBox(height: 12),
+          AppText(
             _isPhoneMode ? 'Телефон нөмірі' : 'Электрондық пошта',
-            style: const TextStyle(
-              fontSize: 12,
-              color: AppTheme.onSurfaceVariant,
-            ),
+            style: TextStyle(fontSize: 12, color: AppTheme.onSurfaceVariant),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           TextField(
             controller: _credentialController,
-            style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w600),
             decoration: InputDecoration(
               filled: true,
               fillColor: AppTheme.surfaceContainerLow,
@@ -506,18 +506,18 @@ class _AuthScreenState extends State<AuthScreen> {
               isDense: true,
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              AppText(
                 'Құпия сөз',
                 style: TextStyle(
                   fontSize: 12,
                   color: AppTheme.onSurfaceVariant,
                 ),
               ),
-              Text(
+              AppText(
                 'Ұмыттыңыз ба?',
                 style: TextStyle(
                   fontSize: 11.5,
@@ -527,15 +527,15 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4),
           TextField(
             controller: _passwordController,
             obscureText: _isPasswordHidden,
-            style: const TextStyle(fontSize: 13.5),
+            style: TextStyle(fontSize: 13.5),
             decoration: InputDecoration(
               filled: true,
               fillColor: AppTheme.surfaceContainerLow,
-              prefixIcon: const Icon(Icons.lock_outline, size: 18),
+              prefixIcon: Icon(Icons.lock_outline, size: 18),
               suffixIcon: IconButton(
                 icon: Icon(
                   _isPasswordHidden ? Icons.visibility : Icons.visibility_off,
@@ -551,7 +551,7 @@ class _AuthScreenState extends State<AuthScreen> {
               isDense: true,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Row(
             children: [
               Checkbox(
@@ -559,13 +559,13 @@ class _AuthScreenState extends State<AuthScreen> {
                 onChanged: (val) => setState(() => _rememberMe = val ?? true),
                 activeColor: AppTheme.primary,
               ),
-              const Text(
+              AppText(
                 'Мені жүйеде есте сақтау (30 күн)',
                 style: TextStyle(fontSize: 12),
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
             height: 48,
@@ -576,24 +576,24 @@ class _AuthScreenState extends State<AuthScreen> {
                   _selectedRoleIndex == 0 ? '/student' : '/employer',
                 );
               },
-              icon: const Text(
+              icon: AppText(
                 'Жүйеге кіру',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              label: const Icon(Icons.arrow_forward, size: 16),
+              label: Icon(Icons.arrow_forward, size: 16),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.secondary,
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             height: 44,
             child: OutlinedButton.icon(
               onPressed: () {},
-              icon: const Icon(Icons.fingerprint, color: AppTheme.secondary),
-              label: const Text(
+              icon: Icon(Icons.fingerprint, color: AppTheme.secondary),
+              label: AppText(
                 'Face ID / Touch ID арқылы кіру',
                 style: TextStyle(
                   fontSize: 12.5,
@@ -610,13 +610,13 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           Row(
-            children: const [
+            children: [
               Expanded(child: Divider()),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
+                child: AppText(
                   'немесе әлеуметтік желілермен',
                   style: TextStyle(fontSize: 11, color: AppTheme.outline),
                 ),
@@ -624,13 +624,13 @@ class _AuthScreenState extends State<AuthScreen> {
               Expanded(child: Divider()),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             children: [
               _buildSsoButton(Icons.qr_code_scanner, 'Digital ID'),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _buildSsoButton(Icons.g_mobiledata, 'Google'),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               _buildSsoButton(Icons.apple, 'Apple'),
             ],
           ),
@@ -643,12 +643,12 @@ class _AuthScreenState extends State<AuthScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: isSelected ? Colors.white : Colors.transparent,
           borderRadius: BorderRadius.circular(6),
         ),
-        child: Text(
+        child: AppText(
           label,
           style: TextStyle(
             fontSize: 12,
@@ -672,12 +672,9 @@ class _AuthScreenState extends State<AuthScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 20, color: AppTheme.onSurface),
-            Text(
+            AppText(
               label,
-              style: const TextStyle(
-                fontSize: 10.5,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -690,11 +687,11 @@ class _AuthScreenState extends State<AuthScreen> {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(Icons.lock_outline, size: 14, color: AppTheme.tertiary),
             SizedBox(width: 4),
             Flexible(
-              child: Text(
+              child: AppText(
                 'Жеке мәліметтер мен құпиялылық параметрлері',
                 style: TextStyle(
                   fontSize: 11,
@@ -704,18 +701,18 @@ class _AuthScreenState extends State<AuthScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
         Wrap(
           alignment: WrapAlignment.center,
-          children: const [
-            Text(
+          children: [
+            AppText(
               'Work.ai-да аккаунтыңыз жоқ па? ',
               style: TextStyle(
                 fontSize: 12.5,
                 color: AppTheme.onSurfaceVariant,
               ),
             ),
-            Text(
+            AppText(
               'Тіркелу',
               style: TextStyle(
                 fontSize: 12.5,

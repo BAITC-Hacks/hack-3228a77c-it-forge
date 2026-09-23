@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
@@ -6,21 +7,22 @@ class ResponsesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 18,
             color: AppTheme.primary,
           ),
           onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Артқа қайту',
+          tooltip: tr('Артқа қайту'),
         ),
-        title: const Text(
+        title: AppText(
           'Жауаптар мен Үн қатулар',
           style: TextStyle(
             fontSize: 16,
@@ -30,15 +32,15 @@ class ResponsesScreen extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         children: [
           // Application 1: Interview
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: const Color(0xFF86EFAC)),
+              border: Border.all(color: Color(0xFF86EFAC)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.03),
@@ -49,19 +51,18 @@ class ResponsesScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                OverflowBar(
+                  alignment: MainAxisAlignment.spaceBetween,
+                  spacing: 8,
+                  overflowSpacing: 6,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFDCFCE7),
+                        color: Color(0xFFDCFCE7),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text(
+                      child: AppText(
                         '🟢 Сұхбатқа шақырылды',
                         style: TextStyle(
                           fontSize: 11,
@@ -70,7 +71,7 @@ class ResponsesScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Text(
+                    AppText(
                       'Бүгін, 14:20',
                       style: TextStyle(
                         fontSize: 11,
@@ -79,32 +80,32 @@ class ResponsesScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                const Text(
+                SizedBox(height: 10),
+                AppText(
                   'Aibek Logistics & Supply',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 3),
-                const Text(
+                SizedBox(height: 3),
+                AppText(
                   '42 жүк көлігінің логистикасын AI арқылы оңтайландыру',
                   style: TextStyle(
                     fontSize: 12.5,
                     color: AppTheme.onSurfaceVariant,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF0FDF4),
+                    color: Color(0xFFF0FDF4),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Text(
+                  child: AppText(
                     'HR Айгүл: "Бүгін сағат 16:00-де Google Meet арқылы сұхбатқа шақырамыз."',
                     style: TextStyle(fontSize: 11.5, color: Color(0xFF166534)),
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Row(
                   children: [
                     Expanded(
@@ -117,8 +118,8 @@ class ResponsesScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        icon: const Icon(Icons.chat_bubble_outline, size: 16),
-                        label: const Text(
+                        icon: Icon(Icons.chat_bubble_outline, size: 16),
+                        label: AppText(
                           'Чатты ашу',
                           style: TextStyle(fontSize: 12),
                         ),
@@ -129,15 +130,15 @@ class ResponsesScreen extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
 
           // Application 2: Screening passed
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              border: Border.all(color: Color(0xFFE2E8F0)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,15 +147,12 @@ class ResponsesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFDBEAFE),
+                        color: Color(0xFFDBEAFE),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Text(
+                      child: AppText(
                         '🔵 AI Скринингтен өтті (94%)',
                         style: TextStyle(
                           fontSize: 11,
@@ -163,7 +161,7 @@ class ResponsesScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Text(
+                    AppText(
                       'Кеше',
                       style: TextStyle(
                         fontSize: 11,
@@ -172,13 +170,13 @@ class ResponsesScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
-                const Text(
+                SizedBox(height: 10),
+                AppText(
                   'ZanTech AI Solutions',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 3),
-                const Text(
+                SizedBox(height: 3),
+                AppText(
                   'Құқықтық құжаттарды нақты уақытта транскрипциялау',
                   style: TextStyle(
                     fontSize: 12.5,

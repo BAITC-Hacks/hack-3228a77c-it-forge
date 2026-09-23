@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
@@ -41,7 +42,12 @@ class _ChatScreenState extends State<ChatScreen> {
     if (text.trim().isEmpty) return;
 
     setState(() {
-      _messages.add({'sender': 'me', 'text': text.trim(), 'time': 'Қазір'});
+      _messages.add({
+        'sender': 'me',
+        'text': quickText == null ? text.trim() : tr(text.trim()),
+        'translate': false,
+        'time': 'Қазір',
+      });
       if (quickText == null) _controller.clear();
     });
   }
@@ -54,26 +60,27 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 18,
             color: AppTheme.primary,
           ),
           onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Артқа қайту',
+          tooltip: tr('Артқа қайту'),
         ),
         title: Row(
           children: [
-            const CircleAvatar(
+            CircleAvatar(
               backgroundColor: AppTheme.primary,
               radius: 16,
-              child: Text(
+              child: AppText(
                 'AL',
                 style: TextStyle(
                   color: Colors.white,
@@ -82,12 +89,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  AppText(
                     'Aibek Logistics (HR Айгүл)',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -97,7 +104,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: AppTheme.onSurface,
                     ),
                   ),
-                  Text(
+                  AppText(
                     'онлайн · 42 жүк көлігі кейсі',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -110,11 +117,11 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.videocam_outlined, color: AppTheme.primary),
+            icon: Icon(Icons.videocam_outlined, color: AppTheme.primary),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
+                SnackBar(
+                  content: AppText(
                     'Meet сілтемесі: meet.google.com/wrk-logistics-ai',
                   ),
                 ),
@@ -128,7 +135,7 @@ class _ChatScreenState extends State<ChatScreen> {
           // Messages list
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(14),
+              padding: EdgeInsets.all(14),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final msg = _messages[index];
@@ -139,16 +146,16 @@ class _ChatScreenState extends State<ChatScreen> {
                       ? Alignment.centerRight
                       : Alignment.centerLeft,
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 10),
+                    margin: EdgeInsets.only(bottom: 10),
                     constraints: BoxConstraints(
                       maxWidth: MediaQuery.of(context).size.width * 0.75,
                     ),
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: isMe ? AppTheme.primary : Colors.white,
                       borderRadius: BorderRadius.circular(16).copyWith(
-                        bottomRight: isMe ? const Radius.circular(2) : null,
-                        bottomLeft: !isMe ? const Radius.circular(2) : null,
+                        bottomRight: isMe ? Radius.circular(2) : null,
+                        bottomLeft: !isMe ? Radius.circular(2) : null,
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -160,15 +167,16 @@ class _ChatScreenState extends State<ChatScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
+                        AppText(
                           msg['text'],
+                          translate: msg['translate'] != false,
                           style: TextStyle(
                             fontSize: 13,
                             color: isMe ? Colors.white : AppTheme.onSurface,
                           ),
                         ),
-                        const SizedBox(height: 3),
-                        Text(
+                        SizedBox(height: 3),
+                        AppText(
                           msg['time'],
                           style: TextStyle(
                             fontSize: 9.5,
@@ -188,20 +196,20 @@ class _ChatScreenState extends State<ChatScreen> {
           // Quick action chips
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             child: Row(
               children: [
                 ActionChip(
-                  label: const Text(
+                  label: AppText(
                     'Сағат 16:00-ге дайынмын ✅',
                     style: TextStyle(fontSize: 11),
                   ),
                   onPressed: () =>
                       _sendMessage('Иә, сағат 16:00-де сұхбатқа дайынмын!'),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6),
                 ActionChip(
-                  label: const Text(
+                  label: AppText(
                     'Демоны көрсетемін 💻',
                     style: TextStyle(fontSize: 11),
                   ),
@@ -215,8 +223,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
           // Input field
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: const BoxDecoration(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
               color: Colors.white,
               border: Border(top: BorderSide(color: Color(0xFFE2E8F0))),
             ),
@@ -226,9 +234,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: 'Хабарлама жазыңыз...',
-                      hintStyle: const TextStyle(fontSize: 12.5),
-                      contentPadding: const EdgeInsets.symmetric(
+                      hintText: tr('Хабарлама жазыңыз...'),
+                      hintStyle: TextStyle(fontSize: 12.5),
+                      contentPadding: EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 10,
                       ),
@@ -241,10 +249,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8),
                 IconButton(
                   onPressed: () => _sendMessage(),
-                  icon: const Icon(Icons.send, color: AppTheme.primary),
+                  icon: Icon(Icons.send, color: AppTheme.primary),
                 ),
               ],
             ),

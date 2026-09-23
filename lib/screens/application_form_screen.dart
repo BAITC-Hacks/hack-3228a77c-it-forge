@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../models/job_challenge.dart';
@@ -14,8 +15,9 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
   JobChallenge get challenge =>
       widget.challenge ?? JobChallenge.sampleChallenges.first;
   final TextEditingController _coverLetterController = TextEditingController(
-    text:
-        'Біздің командамыз қалалық логистика бағытын оңтайландыру бойынша тәжірибеге ие. Біз VRP (Vehicle Routing Problem) алгоритмдерін қолданып, 3 апта ішінде сынақ нұсқасын дайындай аламыз...',
+    text: tr(
+      'Біздің командамыз қалалық логистика бағытын оңтайландыру бойынша тәжірибеге ие. Біз VRP (Vehicle Routing Problem) алгоритмдерін қолданып, 3 апта ішінде сынақ нұсқасын дайындай аламыз...',
+    ),
   );
   final TextEditingController _githubController = TextEditingController(
     text: 'github.com/datacrafters/logistics-solver',
@@ -33,12 +35,13 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
 
   void _polishCoverLetterWithAi() {
     setState(() {
-      _coverLetterController.text =
-          'Құрметті Aibek Logistics командасы! Біз қалалық тасымал тиімділігін арттыратын VRP алгоритмдерімен жұмыс істеп жатқан ҚБТУ зерттеу тобымыз. Кептеліс деректері мен жүк салмағын есептейтін динамикалық шешімді 3 апта ішінде сынаққа ұсына аламыз. Әріптестікке дайынбыз!';
+      _coverLetterController.text = tr(
+        'Құрметті Aibek Logistics командасы! Біз қалалық тасымал тиімділігін арттыратын VRP алгоритмдерімен жұмыс істеп жатқан ҚБТУ зерттеу тобымыз. Кептеліс деректері мен жүк салмағын есептейтін динамикалық шешімді 3 апта ішінде сынаққа ұсына аламыз. Әріптестікке дайынбыз!',
+      );
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('AI ілеспе хатты кәсіби стильде өңдеді!'),
+        content: AppText('AI ілеспе хатты кәсіби стильде өңдеді!'),
         backgroundColor: AppTheme.secondary,
         duration: Duration(seconds: 2),
       ),
@@ -59,10 +62,10 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
           children: [
             Icon(Icons.check_circle, color: AppTheme.tertiary, size: 28),
             SizedBox(width: 8),
-            Text('Жауап жіберілді!'),
+            AppText('Жауап жіберілді!'),
           ],
         ),
-        content: Text(
+        content: AppText(
           'Сіздің үн қатуыңыз Aibek Logistics компаниясына сәтті жеткізілді. Жауап 24 сағат ішінде «Жауаптар» бөлімінде көрсетіледі.',
         ),
         actions: [
@@ -71,7 +74,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
               Navigator.pop(ctx);
               Navigator.pop(context);
             },
-            child: Text('Жақсы'),
+            child: AppText('Жақсы'),
           ),
         ],
       ),
@@ -89,6 +92,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
@@ -106,7 +110,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 color: AppTheme.primary,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Text(
+              child: AppText(
                 'W',
                 style: TextStyle(
                   color: Colors.white,
@@ -116,12 +120,14 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
               ),
             ),
             SizedBox(width: 8),
-            Text(
-              'Filter Setup',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.onSurface,
+            Flexible(
+              child: AppText(
+                'Filter Setup',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.onSurface,
+                ),
               ),
             ),
           ],
@@ -188,7 +194,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 ),
               ),
               SizedBox(width: 8),
-              Text(
+              AppText(
                 'Жаңа тапсырмаға қатысу',
                 style: TextStyle(
                   fontSize: 12.5,
@@ -203,7 +209,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             children: [
               Icon(Icons.bolt, size: 16, color: AppTheme.secondary),
               SizedBox(width: 4),
-              Text(
+              AppText(
                 'AI Match: 94%',
                 style: TextStyle(
                   fontSize: 12.5,
@@ -239,7 +245,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AppText(
                       'ЧЕЛЛЕНДЖ & ЖОБА',
                       style: TextStyle(
                         fontSize: 11,
@@ -249,7 +255,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                       ),
                     ),
                     SizedBox(height: 4),
-                    Text(
+                    AppText(
                       challenge.title,
                       style: TextStyle(
                         fontSize: 16,
@@ -277,7 +283,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
           SizedBox(height: 8),
           Row(
             children: [
-              Text(
+              AppText(
                 challenge.salaryRange,
                 style: TextStyle(
                   fontSize: 16,
@@ -286,10 +292,10 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 ),
               ),
               SizedBox(width: 6),
-              Text('•', style: TextStyle(color: AppTheme.outline)),
+              AppText('•', style: TextStyle(color: AppTheme.outline)),
               SizedBox(width: 6),
               Flexible(
-                child: Text(
+                child: AppText(
                   challenge.companyName,
                   style: TextStyle(
                     fontSize: 13,
@@ -326,7 +332,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
         children: [
           Icon(icon, size: 14, color: AppTheme.outline),
           SizedBox(width: 4),
-          Text(
+          AppText(
             text,
             style: TextStyle(fontSize: 11.5, color: AppTheme.onSurfaceVariant),
           ),
@@ -338,7 +344,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
   Widget _buildStep1ResumeSelector() {
     return _buildCardWrapper(
       title: '1. Түйіндемені немесе Команда профилін таңдаңыз',
-      trailing: Text(
+      trailing: AppText(
         'Міндетті',
         style: TextStyle(
           fontSize: 12,
@@ -372,14 +378,14 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      AppText(
                         'Data Crafters',
                         style: TextStyle(
                           fontSize: 13.5,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
+                      AppText(
                         'ҚБТУ 3-курс командасы · ML & Data...',
                         style: TextStyle(
                           fontSize: 11.5,
@@ -391,7 +397,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: AppText(
                     'Өзгерту',
                     style: TextStyle(
                       fontSize: 12.5,
@@ -407,11 +413,11 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                _MiniTag('4 қатысушы', isPrimary: true),
+                const _MiniTag('4 қатысушы', isPrimary: true),
                 SizedBox(width: 6),
-                _MiniTag('Python / PyTorch'),
+                const _MiniTag('Python / PyTorch'),
                 SizedBox(width: 6),
-                _MiniTag('GIS логистикасы'),
+                const _MiniTag('GIS логистикасы'),
               ],
             ),
           ),
@@ -428,7 +434,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
         children: [
           Icon(Icons.auto_awesome, size: 14, color: AppTheme.tertiary),
           SizedBox(width: 2),
-          Text(
+          AppText(
             'AI көмекшісі',
             style: TextStyle(
               fontSize: 12,
@@ -454,7 +460,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none,
               ),
-              hintText: 'Өз шешіміңізді және көзқарасыңызды жазыңыз...',
+              hintText: tr('Өз шешіміңізді және көзқарасыңызды жазыңыз...'),
             ),
             onChanged: (_) => setState(() {}),
           ),
@@ -466,7 +472,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
               OutlinedButton.icon(
                 onPressed: _polishCoverLetterWithAi,
                 icon: Icon(Icons.auto_fix_high, size: 15),
-                label: Text('Кәсіби стильде өңдеу'),
+                label: AppText('Кәсіби стильде өңдеу'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: AppTheme.secondary,
                   backgroundColor: AppTheme.surfaceContainerHigh,
@@ -478,7 +484,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                   ),
                 ),
               ),
-              Text(
+              AppText(
                 '${_coverLetterController.text.length} таңба',
                 style: TextStyle(fontSize: 11, color: AppTheme.outline),
               ),
@@ -497,7 +503,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          AppText(
             'Ұсынылатын мерзім',
             style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600),
           ),
@@ -521,7 +527,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       alignment: Alignment.center,
-                      child: Text(
+                      child: AppText(
                         _durationOptions[index],
                         style: TextStyle(
                           fontSize: 12.5,
@@ -540,12 +546,12 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
+                child: AppText(
                   'Прототип немесе GitHub сілтемесі',
                   style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600),
                 ),
               ),
-              Text(
+              AppText(
                 'міндетті емес',
                 style: TextStyle(fontSize: 11, color: AppTheme.outline),
               ),
@@ -580,7 +586,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          AppText(
             'Телефон нөмірі',
             style: TextStyle(fontSize: 11.5, color: AppTheme.onSurfaceVariant),
           ),
@@ -600,7 +606,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             ),
           ),
           SizedBox(height: 10),
-          Text(
+          AppText(
             'Электрондық пошта (Email)',
             style: TextStyle(fontSize: 11.5, color: AppTheme.onSurfaceVariant),
           ),
@@ -639,7 +645,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                 ),
               )
             : Icon(Icons.send, size: 18),
-        label: Text(
+        label: AppText(
           _isSubmitting
               ? 'Жіберілуде...'
               : 'Үн қатуды жіберу (Отправить отклик)',
@@ -671,12 +677,12 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AppText(
                   'Қауіпсіздік және кепілдік',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 2),
-                Text(
+                AppText(
                   'Жұмыс беруші сіздің өтінішіңізді 24 сағат ішінде қарайды. Статусты «Жауаптар» бөлімінен көре аласыз.',
                   style: TextStyle(
                     fontSize: 11.5,
@@ -710,7 +716,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
+                child: AppText(
                   title,
                   style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.bold),
                 ),
@@ -719,7 +725,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
             ],
           ),
           SizedBox(height: 4),
-          Text(
+          AppText(
             subtitle,
             style: TextStyle(
               fontSize: 12,
@@ -742,13 +748,14 @@ class _MiniTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
         color: isPrimary ? Color(0xFFEADDFF) : AppTheme.surfaceContainer,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(
+      child: AppText(
         text,
         style: TextStyle(
           fontSize: 11,

@@ -1,3 +1,4 @@
+import '../l10n/app_language.dart';
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
@@ -26,21 +27,22 @@ class _TasksScreenState extends State<TasksScreen>
 
   @override
   Widget build(BuildContext context) {
+    LanguageScope.watch(context);
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back_ios_new,
             size: 18,
             color: AppTheme.primary,
           ),
           onPressed: () => Navigator.of(context).maybePop(),
-          tooltip: 'Артқа қайту',
+          tooltip: tr('Артқа қайту'),
         ),
-        title: const Text(
+        title: AppText(
           'Менің тапсырмаларым',
           style: TextStyle(
             fontSize: 16,
@@ -53,7 +55,7 @@ class _TasksScreenState extends State<TasksScreen>
           labelColor: AppTheme.primary,
           unselectedLabelColor: AppTheme.onSurfaceVariant,
           indicatorColor: AppTheme.primary,
-          tabs: const [
+          tabs: [
             Tab(text: 'Белсенді (2)'),
             Tab(text: 'Аяқталған (1)'),
           ],
@@ -64,7 +66,7 @@ class _TasksScreenState extends State<TasksScreen>
         children: [
           // Active Tasks
           ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             children: [
               _buildTaskCard(
                 title: '42 жүк көлігінің логистикасын AI арқылы оңтайландыру',
@@ -74,7 +76,7 @@ class _TasksScreenState extends State<TasksScreen>
                 progress: 0.65,
                 progressLabel: '65% орындалды',
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               _buildTaskCard(
                 title: 'ZanTech: ҚР заңнамасын талдайтын RAG-ассистент',
                 company: 'ZanTech AI Solutions',
@@ -88,22 +90,22 @@ class _TasksScreenState extends State<TasksScreen>
 
           // Completed Tasks
           ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             children: [
               Container(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF86EFAC)),
+                  border: Border.all(color: Color(0xFF86EFAC)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        AppText(
                           'Жеңімпаз 🏆 · Толық төленді',
                           style: TextStyle(
                             fontSize: 11,
@@ -111,7 +113,7 @@ class _TasksScreenState extends State<TasksScreen>
                             color: Color(0xFF16A34A),
                           ),
                         ),
-                        Text(
+                        AppText(
                           '+650 000 ₸',
                           style: TextStyle(
                             fontSize: 14,
@@ -122,7 +124,7 @@ class _TasksScreenState extends State<TasksScreen>
                       ],
                     ),
                     SizedBox(height: 8),
-                    Text(
+                    AppText(
                       'AgroData: Егістік ылғалын спутниктік талдау моделі',
                       style: TextStyle(
                         fontSize: 14,
@@ -130,7 +132,7 @@ class _TasksScreenState extends State<TasksScreen>
                       ),
                     ),
                     SizedBox(height: 4),
-                    Text(
+                    AppText(
                       'Тапсырыс беруші бағасы: 5.0 ⭐⭐⭐⭐⭐',
                       style: TextStyle(
                         fontSize: 12,
@@ -156,7 +158,7 @@ class _TasksScreenState extends State<TasksScreen>
     required String progressLabel,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -164,10 +166,10 @@ class _TasksScreenState extends State<TasksScreen>
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
-            offset: const Offset(0, 3),
+            offset: Offset(0, 3),
           ),
         ],
-        border: Border.all(color: const Color(0xFFE2E8F0)),
+        border: Border.all(color: Color(0xFFE2E8F0)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,17 +177,17 @@ class _TasksScreenState extends State<TasksScreen>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              AppText(
                 company,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.onSurfaceVariant,
                 ),
               ),
-              Text(
+              AppText(
                 reward,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: AppTheme.primary,
@@ -193,29 +195,26 @@ class _TasksScreenState extends State<TasksScreen>
               ),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(
+          SizedBox(height: 8),
+          AppText(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.bold,
               color: AppTheme.onSurface,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              AppText(
                 progressLabel,
-                style: const TextStyle(
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w500),
               ),
-              Text(
+              AppText(
                 deadline,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11.5,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFFD97706),
@@ -223,25 +222,25 @@ class _TasksScreenState extends State<TasksScreen>
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6),
           ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: LinearProgressIndicator(
               value: progress,
-              backgroundColor: const Color(0xFFF1F5F9),
+              backgroundColor: Color(0xFFF1F5F9),
               color: AppTheme.primary,
               minHeight: 6,
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           Row(
             children: [
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Шешімді тапсыру терезесі ашылды 🚀'),
+                      SnackBar(
+                        content: AppText('Шешімді тапсыру терезесі ашылды 🚀'),
                       ),
                     );
                   },
@@ -252,8 +251,8 @@ class _TasksScreenState extends State<TasksScreen>
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  icon: const Icon(Icons.send, size: 16),
-                  label: const Text(
+                  icon: Icon(Icons.send, size: 16),
+                  label: AppText(
                     'Шешімді тапсыру',
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   ),

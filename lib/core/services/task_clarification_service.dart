@@ -110,7 +110,7 @@ final List<Map<String, dynamic>> flowerQuestions = [
 List<Map<String, dynamic>> questionsForTask(String task) {
   final text = task.toLowerCase();
   bool has(List<String> words) => words.any(text.contains);
-  if (has(['гүл', 'цвет', 'flower', 'букет'])) return flowerQuestions;
+  if (has(['гүл', 'цвет', 'flower', 'букет', 'floral'])) return flowerQuestions;
 
   Map<String, dynamic> question(
     String context,
@@ -131,7 +131,19 @@ List<Map<String, dynamic>> questionsForTask(String task) {
     ],
   };
 
-  if (has(['логист', 'жеткіз', 'курьер', 'достав', 'көлік', 'маршрут'])) {
+  if (has([
+    'логист',
+    'жеткіз',
+    'курьер',
+    'достав',
+    'көлік',
+    'маршрут',
+    'logistic',
+    'delivery',
+    'courier',
+    'transport',
+    'routing',
+  ])) {
     return [
       question(
         'Жеткізу үдерісі',
@@ -162,7 +174,21 @@ List<Map<String, dynamic>> questionsForTask(String task) {
       ),
     ];
   }
-  if (has(['дүкен', 'сататын', 'сауда', 'магазин', 'сату', 'shop', 'тауар'])) {
+  if (has([
+    'дүкен',
+    'сататын',
+    'сауда',
+    'магазин',
+    'сату',
+    'shop',
+    'тауар',
+    'sell',
+    'store',
+    'e-commerce',
+    'торгов',
+    'продаж',
+    'retail',
+  ])) {
     return [
       question(
         'Каталог және тапсырыс',
@@ -189,7 +215,21 @@ List<Map<String, dynamic>> questionsForTask(String task) {
       ),
     ];
   }
-  if (has(['оқу', 'білім', 'сабақ', 'курс', 'мектеп', 'обуч', 'school'])) {
+  if (has([
+    'оқу',
+    'білім',
+    'сабақ',
+    'курс',
+    'мектеп',
+    'обуч',
+    'school',
+    'educat',
+    'learn',
+    'course',
+    'урок',
+    'школ',
+    'образова',
+  ])) {
     return [
       question('Оқу форматы', 'Білім беру шешімінде сабақтар қалай өтеді?', [
         'Бейнесабақтар мен материалдарды өздігінен оқу',
