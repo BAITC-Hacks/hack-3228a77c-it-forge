@@ -3,13 +3,13 @@ import '../models/challenge.dart';
 const challenges = <Challenge>[
   Challenge(
     id: 'logistics',
-    title: 'Алматыдағы 42 жүк көлігінің бағытын AI арқылы оңтайландыру',
-    company: 'Aibek Logistics & Supply',
+    title: 'Алматы көлік логистикасының динамикалық бағыттарын оңтайландыру',
+    company: 'Aibek Construction & Logistics',
     reward: '650 000 – 1 200 000 ₸',
     category: 'Жедел челлендж',
     match: 91,
     summary:
-        'Кептеліс пен уақыт терезелерін ескере отырып, жеткізу бағыттарын жоспарлайтын шешім жасаңыз.',
+        'Тәулігіне жеткізу кешігулерін азайту үшін OR-Tools және Python негізінде телеметрия деректерімен бағыттарды жоспарлаңыз.',
     tags: ['Python', 'OR-Tools', 'Логистика', 'GPS Data'],
   ),
   Challenge(

@@ -23,11 +23,13 @@ class DiscoveryScreen extends StatefulWidget {
 }
 
 class _DiscoveryScreenState extends State<DiscoveryScreen> {
-  final _search = TextEditingController(text: 'Логистика және AI');
+  final _search = TextEditingController();
+  final _searchFocus = FocusNode();
   String _filter = 'AI & ML';
   @override
   void dispose() {
     _search.dispose();
+    _searchFocus.dispose();
     super.dispose();
   }
 
@@ -49,9 +51,27 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
             padding: const EdgeInsets.fromLTRB(16, 10, 12, 8),
             child: Row(
               children: [
-                const BrandMark(),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BrandMark(),
+                    Padding(
+                      padding: EdgeInsets.only(left: 42, top: 2),
+                      child: Text(
+                        'Алматы ▾',
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: Color(0xFF647A99),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const Spacer(),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+                IconButton(
+                  onPressed: () => _searchFocus.requestFocus(),
+                  icon: const Icon(Icons.search, size: 21),
+                ),
                 Badge(
                   child: IconButton(
                     onPressed: () =>
@@ -79,10 +99,16 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
                     Expanded(
                       child: TextField(
                         controller: _search,
+                        focusNode: _searchFocus,
                         onChanged: (_) => setState(() {}),
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.search),
-                          hintText: 'Лауазым, дағды немесе компания',
+                          hintText: 'Логистика және AI',
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.all(Radius.circular(18)),
+                          ),
                         ),
                       ),
                     ),
@@ -93,8 +119,12 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
                       style: IconButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                       icon: const Badge(
+                        backgroundColor: AppColors.violet,
                         label: Text('2'),
                         child: Icon(Icons.tune),
                       ),
@@ -120,6 +150,19 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
                                 child: ChoiceChip(
                                   label: Text(label),
                                   selected: _filter == label,
+                                  showCheckmark: false,
+                                  avatar: label == 'AI & ML'
+                                      ? Icon(
+                                          Icons.auto_awesome,
+                                          size: 14,
+                                          color: _filter == label
+                                              ? Colors.white
+                                              : AppColors.muted,
+                                        )
+                                      : null,
+                                  side: BorderSide.none,
+                                  backgroundColor: AppColors.soft,
+                                  shape: const StadiumBorder(),
                                   onSelected: (_) =>
                                       setState(() => _filter = label),
                                   selectedColor: AppColors.primary,
@@ -142,16 +185,19 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Табылғаны: ${list.length + 81} вакансия мен тапсырма',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: AppColors.muted,
-                        fontWeight: FontWeight.w700,
+                    Expanded(
+                      child: Text(
+                        'Табылғаны: ${list.length} вакансия мен тапсырма',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: AppColors.muted,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
+                    const SizedBox(width: 16),
                     const Text(
-                      'Күні бойынша ▾',
+                      'Күні\nбойынша ▾',
                       style: TextStyle(
                         fontSize: 11,
                         color: AppColors.primary,
@@ -217,6 +263,13 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
         ],
       ),
       borderRadius: BorderRadius.circular(18),
+      boxShadow: const [
+        BoxShadow(
+          color: Color(0x22712AE2),
+          blurRadius: 8,
+          offset: Offset(0, 4),
+        ),
+      ],
     ),
     child: const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,12 +277,21 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '⚡ Work.ai AI Іріктеу',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 11,
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: Color(0x33FFFFFF),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                child: Text(
+                  '⚡ Work.ai AI Іріктеу',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11,
+                  ),
+                ),
               ),
             ),
             Text(
@@ -240,7 +302,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
         ),
         SizedBox(height: 10),
         Text(
-          'Студенттер мен мамандар үшін нақты бизнес мәселелері',
+          'Студенттер мен мамандар үшін нақты бизнес мәселелері мен жобалар',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w800,
@@ -249,7 +311,7 @@ class _DiscoveryScreenState extends State<DiscoveryScreen> {
         ),
         SizedBox(height: 5),
         Text(
-          'AI дайындық деңгейін тексеріп, компаниялардан тікелей грант алуға көмектеседі.',
+          'Дайындығыңызды AI тесттерімен тексеріп, компаниялардан тікелей грант ұтып алыңыз.',
           style: TextStyle(
             color: Color(0xE6FFFFFF),
             fontSize: 11,
@@ -284,12 +346,28 @@ class _ChallengeCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                StatusPill(
-                  label: challenge.category,
-                  color: challenge.category.contains('Жедел')
-                      ? AppColors.green
-                      : AppColors.violet,
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 7,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.green,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Text(
+                      '⚡ ${challenge.category}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
+                const SizedBox(width: 6),
+                const StatusPill(label: 'Гранттық жоба'),
                 const Spacer(),
                 IconButton(
                   onPressed: onSaved,
@@ -308,12 +386,14 @@ class _ChallengeCard extends StatelessWidget {
             const SizedBox(height: 5),
             Row(
               children: [
-                Text(
-                  challenge.company,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.muted,
-                    fontWeight: FontWeight.w600,
+                Flexible(
+                  child: Text(
+                    challenge.company,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.muted,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const Icon(Icons.verified, color: AppColors.primary, size: 15),
@@ -329,6 +409,23 @@ class _ChallengeCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 9),
+            const Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  size: 13,
+                  color: Color(0xFF647A99),
+                ),
+                SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    'Алматы · Қашықтан / Гибрид',
+                    style: TextStyle(fontSize: 11, color: Color(0xFF647A99)),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.all(9),
               decoration: BoxDecoration(
@@ -337,7 +434,18 @@ class _ChallengeCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  ScoreRing(score: challenge.match, size: 38),
+                  CircleAvatar(
+                    radius: 16,
+                    backgroundColor: AppColors.primary,
+                    child: Text(
+                      '${challenge.match}%',
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
@@ -380,12 +488,22 @@ class _ChallengeCard extends StatelessWidget {
               spacing: 5,
               children: challenge.tags
                   .map(
-                    (tag) => Chip(
-                      label: Text(tag),
-                      labelStyle: const TextStyle(fontSize: 9),
-                      side: BorderSide.none,
-                      backgroundColor: AppColors.softBlue,
-                      visualDensity: VisualDensity.compact,
+                    (tag) => Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.softBlue,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        tag,
+                        style: const TextStyle(
+                          fontSize: 9,
+                          color: Color(0xFF52627B),
+                        ),
+                      ),
                     ),
                   )
                   .toList(),
