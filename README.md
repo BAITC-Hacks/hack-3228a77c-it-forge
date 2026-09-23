@@ -1,16 +1,16 @@
-# SANA
+# Work.ai
 
 > **Turn an ambiguous business problem into a clear challenge students can solve.**
 
 [![Flutter](https://img.shields.io/badge/Flutter-UI-02569B?logo=flutter&logoColor=white)](https://flutter.dev) [![Dart](https://img.shields.io/badge/Dart-%5E3.11.4-0175C2?logo=dart&logoColor=white)](https://dart.dev) [![Android](https://img.shields.io/badge/Target-Android-3DDC84?logo=android&logoColor=white)](android/) [![Web](https://img.shields.io/badge/Target-Web-4285F4?logo=googlechrome&logoColor=white)](web/)
 
-**SANA** is a student–business collaboration concept built for the AI SANA practical hackathon case. The current Flutter prototype is branded **Work.ai** in the interface and demonstrates the core exchange: a business turns a raw problem into a publishable challenge, while a student discovers the brief, applies, and follows the work from one workspace.
+**Work.ai** is a student–business collaboration concept built for the AI SANA practical hackathon case. It demonstrates the core exchange: a business turns a raw problem into a publishable challenge, while a student discovers the brief, applies, and follows the work from one workspace.
 
 [Open the repository](https://github.com/BAITC-Hacks/hack-3228a77c-it-forge)
 
-## Why SANA
+## Why Work.ai
 
-Businesses often have useful problems but not a ready-to-share brief. Students have skills and motivation but lack access to concrete, paid, real-world challenges. SANA makes the handoff tangible:
+Businesses often have useful problems but not a ready-to-share brief. Students have skills and motivation but lack access to concrete, paid, real-world challenges. Work.ai makes the handoff tangible:
 
 | For businesses | For students |
 | --- | --- |
@@ -169,7 +169,7 @@ The responses, task progress, and initial chat messages are demo content. They i
 
 **1:15–1:40 — Student action.** Switch to student mode, open a challenge, inspect its context and skill tags, and apply.
 
-**1:40–2:00 — One workspace.** Show the responses, task progress, and chat tabs. Close with: “SANA turns a vague business need into a visible student opportunity and a shared delivery flow.”
+**1:40–2:00 — One workspace.** Show the responses, task progress, and chat tabs. Close with: “Work.ai turns a vague business need into a visible student opportunity and a shared delivery flow.”
 
 ## Current limitations
 
@@ -194,4 +194,4 @@ This is a hackathon prototype. If you extend it, keep product claims traceable t
 
 ---
 
-Built for the **AI SANA** practical hackathon case. Current prototype interface: **Work.ai**.
+Built for the **AI SANA** practical hackathon case.
