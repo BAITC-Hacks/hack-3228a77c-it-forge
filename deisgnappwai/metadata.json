@@ -1,0 +1,6 @@
+{
+  "name": "Work.ai - Flutter Dart Code & UI Explorer",
+  "description": "Work.ai мобильді қосымшасының дизайнын Flutter (Dart) тілінде толықтай жүзеге асыру және интерактивті симуляторы",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
