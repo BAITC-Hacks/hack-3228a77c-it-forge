@@ -1,6 +1,6 @@
 <div align="center">
 
-# Work.ai
+# AI Sana Challenge Hub
 
 **Business challenges. Student talent. Real project experience.**
 
