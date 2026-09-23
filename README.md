@@ -1,197 +1,145 @@
+<div align="center">
+
 # Work.ai
 
-> **Turn an ambiguous business problem into a clear challenge students can solve.**
+**Business challenges. Student talent. Real project experience.**
 
-[![Flutter](https://img.shields.io/badge/Flutter-UI-02569B?logo=flutter&logoColor=white)](https://flutter.dev) [![Dart](https://img.shields.io/badge/Dart-%5E3.11.4-0175C2?logo=dart&logoColor=white)](https://dart.dev) [![Android](https://img.shields.io/badge/Target-Android-3DDC84?logo=android&logoColor=white)](android/) [![Web](https://img.shields.io/badge/Target-Web-4285F4?logo=googlechrome&logoColor=white)](web/)
+A Flutter workspace that takes a business idea from a clear brief to a student proposal and project delivery.
 
-**Work.ai** is a student–business collaboration concept built for the AI SANA practical hackathon case. It demonstrates the core exchange: a business turns a raw problem into a publishable challenge, while a student discovers the brief, applies, and follows the work from one workspace.
+[![Flutter](https://img.shields.io/badge/Flutter-UI-02569B?logo=flutter&logoColor=white)](pubspec.yaml)
+[![Dart](https://img.shields.io/badge/Dart-%5E3.11.4-0175C2?logo=dart&logoColor=white)](pubspec.yaml)
+[![Android](https://img.shields.io/badge/Android-Work.ai-0037B0?logo=android&logoColor=white)](android/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-optional_server_integration-131B2E)](docs/openai-setup.md)
 
-[Open the repository](https://github.com/BAITC-Hacks/hack-3228a77c-it-forge)
+[Quick start](#quick-start) · [Product flows](#product-flows) · [OpenAI setup](docs/openai-setup.md) · [Verification](#verification)
 
-## Why Work.ai
-
-Businesses often have useful problems but not a ready-to-share brief. Students have skills and motivation but lack access to concrete, paid, real-world challenges. Work.ai makes the handoff tangible:
-
-| For businesses | For students |
-| --- | --- |
-| Start with a plain-language operational problem. | Browse a focused marketplace of business challenges. |
-| Use guided questions to make the brief clearer. | Open a complete brief with context, skills, reward, and AI match score. |
-| Publish the challenge to the discovery feed. | Apply, track work, and continue the conversation in one demo workspace. |
-
-The product is intentionally built around a visible challenge lifecycle rather than a generic job board: **problem → clarification → ready-to-publish challenge → student response → workspace**.
-
-## What is implemented
-
-- A responsive challenge discovery feed with search, category filters, cards, match scores, tags, and reward ranges.
-- A detail view containing challenge context, deliverables, data/skills sections, favorite state, and an application action.
-- Student and business profile modes in the same app shell.
-- A business challenge builder that turns a raw problem into a structured draft, clarification questions, suggestions, and a readiness score before publishing.
-- Publishing into the in-memory discovery feed during the current app session.
-- Student responses, task-progress, and chat screens for the end-to-end prototype flow.
-- Compact mobile navigation and a `NavigationRail` layout on wide screens.
-
-There are no product screenshots committed to this repository yet, so this README deliberately does not include placeholder imagery.
-
-## AI-assisted challenge builder
-
-The app contains a small, transparent AI-shaped layer at [`lib/core/services/ai_challenge_service.dart`](lib/core/services/ai_challenge_service.dart). It is a deterministic local demo fallback—not a connection to Gemini, OpenAI, or another external model.
-
-```mermaid
-flowchart LR
-  A[Raw business problem] --> B[AiChallengeService]
-  B --> C[Draft title and summary]
-  B --> D[Clarifying questions]
-  B --> E[Suggestions]
-  B --> F[Readiness score]
-  C --> G[Business review]
-  D --> G
-  E --> G
-  F --> G
-  G --> H[Publish to in-memory feed]
-```
-
-The service waits briefly to model an analysis step, then returns a fixed draft structure based only on the supplied text and answer completion. The score begins at **12** for a short/empty problem or **32** for a problem longer than 35 characters, gains **14** for each non-empty clarification answer, and is capped at **91**. This makes the interaction predictable and easy to demo, but it is **not** a production AI evaluation or the weighted readiness model proposed for a future release.
-
-No API key, environment variable, or network configuration is needed to run the Flutter prototype. The `deisgnappwai/` directory is a separate reference project and is not used by the Flutter runtime.
-
-## Architecture
-
-The project uses Flutter's built-in widget and state primitives. State is held in screen/app state with `StatefulWidget` and `setState`; sample challenges live in source code and changes last only for the current session.
-
-```mermaid
-flowchart TD
-  M[main.dart] --> A[WorkAiApp]
-  A --> S[WorkAiShell]
-  S --> H[Discovery screen]
-  S --> R[Responses screen]
-  S --> T[Tasks screen]
-  S --> C[Chat screen]
-  S --> P[Profile screen]
-  P --> B[Challenge builder]
-  H --> D[Challenge detail]
-  B --> AI[AiChallengeService]
-  H --> DATA[Demo challenge data]
-  D --> MODEL[Challenge model]
-  B --> MODEL
-```
-
-```text
-lib/
-├── app/
-│   ├── theme/                 # Colors and ThemeData
-│   └── work_ai_app.dart       # App shell, navigation, session state
-├── core/services/
-│   └── ai_challenge_service.dart
-├── features/
-│   ├── challenges/            # Builder and detail screens
-│   ├── home/                  # Discovery feed
-│   └── workspace/             # Responses, tasks, chat, profile
-├── shared/
-│   ├── data/                  # Seed challenge data
-│   ├── models/                # Challenge and AI draft models
-│   └── widgets/               # Reusable UI components
-└── main.dart
-
-test/widget_test.dart          # Widget smoke test for the discovery feed
-android/                       # Android host project
-web/                           # Web host project
-```
-
-## Tech stack
-
-| Layer | Current implementation |
-| --- | --- |
-| UI | Flutter Material widgets, custom theme, responsive layout |
-| Language | Dart (`^3.11.4`) |
-| State | Local `StatefulWidget` / `setState` |
-| AI flow | Deterministic local `AiChallengeService` demo fallback |
-| Data | In-memory model and seed data in `lib/shared/data/demo_data.dart` |
-| Testing | `flutter_test` and `flutter_lints` |
-| Targets | Android and Flutter web host projects |
-
-There is currently no authentication service, database, REST/GraphQL API, analytics provider, cloud storage, or production LLM integration in the Flutter app.
-
-## Quick start
-
-### Prerequisites
-
-- A Flutter SDK compatible with Dart `^3.11.4`
-- For Android: Android Studio/SDK and either an emulator or a USB-debuggable device
-- For web: Chrome or another Flutter-supported browser
-
-```bash
-git clone https://github.com/BAITC-Hacks/hack-3228a77c-it-forge.git
-cd hack-3228a77c-it-forge
-flutter pub get
-```
-
-Run on Android:
-
-```bash
-flutter devices
-flutter run -d <android-device-id>
-```
-
-Run in Chrome:
-
-```bash
-flutter run -d chrome
-```
-
-Validate the project:
-
-```bash
-flutter analyze
-flutter test
-```
-
-## Deterministic verification scenario
-
-Use this flow to verify the main interaction without relying on a backend or an external AI provider:
-
-1. Open **Profile** and switch to **business mode**.
-2. Choose **New business challenge**.
-3. Keep or replace the problem text, then start the AI analysis.
-4. Answer one or more clarification questions and run the analysis again; the readiness score changes predictably.
-5. Publish the draft. The new challenge is added to the discovery feed for the active session.
-6. Switch back to **student mode**, open a challenge from discovery, and apply.
-7. The app moves to the responses workspace; open **Chat** and send a local message to confirm the interactive UI path.
-
-The responses, task progress, and initial chat messages are demo content. They illustrate the product flow but do not persist or synchronize with a server.
-
-## 2-minute demo script
-
-**0:00–0:20 — The problem.** “A business may know it is losing time or money, but it rarely arrives with a structured challenge a student can confidently solve.” Show the discovery feed.
-
-**0:20–0:55 — Clarify, do not fabricate.** Switch to business mode and open the challenge builder. Enter the raw problem, start the analysis, and answer the generated questions. Point out that the prototype surfaces structure, questions, suggestions, and a readiness signal without claiming hidden facts.
-
-**0:55–1:15 — Publish.** Publish the reviewed challenge and return to discovery to show that it is immediately visible in the current session.
-
-**1:15–1:40 — Student action.** Switch to student mode, open a challenge, inspect its context and skill tags, and apply.
-
-**1:40–2:00 — One workspace.** Show the responses, task progress, and chat tabs. Close with: “Work.ai turns a vague business need into a visible student opportunity and a shared delivery flow.”
-
-## Current limitations
-
-- All data and state are in memory; publishing, chat messages, and UI state reset on restart.
-- The AI service is deterministic demo logic, not an LLM or evidence-grounded readiness evaluator.
-- Challenge editing fields are visual in the builder; edits are not written back to the published model.
-- Authentication, roles, real company/student profiles, notifications, payments/escrow, and persistence are not implemented.
-- Responses and task progress are illustrative seed content, not a live business decision workflow.
-- Android uses the current example application ID (`com.example.wai`) and the release build configuration still uses debug signing. These must be replaced before a store release.
-
-## Roadmap
-
-1. Replace the local demo service with a secure, source-grounded AI workflow and explainable readiness criteria.
-2. Persist users, challenges, applications, messages, and delivery milestones with role-based access.
-3. Add real review actions for businesses, student portfolios, attachments, and transparent status changes.
-4. Add notifications, escrow/payment milestones, audit history, and privacy controls.
-5. Polish localization, accessibility, analytics, and production Android/web deployment configuration.
-
-## Contributing
-
-This is a hackathon prototype. If you extend it, keep product claims traceable to the implementation, avoid adding user facts during AI-assisted drafting, and add tests for each new workflow.
+</div>
 
 ---
 
-Built for the **AI SANA** practical hackathon case.
+## The experience
+
+Work.ai connects business problems with students who can solve them. Its Kazakh-language interface follows the updated design in [designappwai2](designappwai2/): blue brand accents, light surfaces, focused project cards, student/business workspaces and a guided challenge studio.
+
+The Flutter implementation adds bundled **Manrope** typography, **Lucide** icons, tactile buttons, staged entrances and short page transitions. It respects reduced-motion settings, keeps tab state alive and adapts to a navigation rail on wider screens.
+
+## Product flows
+
+| Discover | Create | Collaborate |
+| --- | --- | --- |
+| Search titles, companies and skills. | Set the title, problem, budget and duration. | Submit a validated proposal with contact details. |
+| Filter categories, sort and save projects. | Answer three questions with multiple selections and custom requirements. | Review applications and accept, invite or decline them in business mode. |
+| Open each project's own brief. | Review and edit the actual specification that will be published. | Send messages, submit a solution URL and review delivery. |
+
+### From idea to published challenge
+
+~~~mermaid
+flowchart LR
+  A[Business problem] --> B[Title, budget, duration]
+  B --> C[Three clarification steps]
+  C --> D[Multiple choices + custom answers]
+  D --> E[Editable specification]
+  E --> F[Confirm publication]
+  F --> G[Discovery + business workspace]
+~~~
+
+Drafts are saved between visits. Publishing keeps the entered budget, duration, selections and edited specification. Student applications are linked to the correct project; accepting an application creates a task, and submitting a solution changes its status.
+
+### What is local, and what connects to OpenAI?
+
+| Capability | Current boundary |
+| --- | --- |
+| Projects, bookmarks, profiles, applications, task decisions and chat | One local workspace, saved on the device with SharedPreferences |
+| Guided questions without a server | Topic-based templates; the flower project includes catalog/3D/AR, delivery and AI choices from the reference |
+| Optional OpenAI assistance | A companion Node server calls the Responses API for structured questions and editable specifications |
+| Authentication and company delivery | Not connected; local role switching is not server authentication |
+| Payments and escrow | Not connected; no real balances or transfers |
+| Example companies, projects and conversations | Demonstration data; no live company communication is implied |
+
+The readiness indicator on newly published projects measures completion of the brief, not independent AI verification. With OpenAI enabled, the builder explains what project data will be sent, handles connection errors and lets the user explicitly continue with local questions.
+
+## Quick start
+
+Requirements: Flutter compatible with Dart **^3.11.4**, an Android SDK/device or Chrome. OpenAI integration additionally needs Node.js **22+**.
+
+~~~bash
+git clone https://github.com/BAITC-Hacks/hack-3228a77c-it-forge.git
+cd hack-3228a77c-it-forge
+flutter pub get
+flutter devices
+flutter run -d <device-id>
+~~~
+
+For web:
+
+~~~bash
+flutter run -d chrome
+~~~
+
+For live AI, follow [OpenAI setup](docs/openai-setup.md). The key belongs in the ignored server environment file. It is never compiled into the Flutter application.
+
+## Architecture
+
+~~~mermaid
+flowchart TD
+  UI[Flutter feature screens] <--> S[WorkspaceStore]
+  S <--> P[Device persistence]
+  B[Challenge studio] --> L[Local clarification service]
+  B --> C[Optional HTTP client]
+  C --> N[Loopback Node companion]
+  N --> O[OpenAI Responses API]
+~~~
+
+~~~text
+lib/
+├── app/                  App shell, theme, responsive navigation
+├── core/
+│   ├── services/         Local questions and optional AI client
+│   └── state/            Shared workspace and persistence
+├── features/
+│   ├── challenges/       Builder, detail and application
+│   ├── home/             Discovery, search and filters
+│   └── workspace/        Responses, tasks, chat and profiles
+├── shared/               Models, demo data and reusable UI
+└── main.dart
+
+assets/fonts/             Bundled Manrope and its OFL license
+server/                   Local OpenAI adapter and tests
+test/                     State, persistence and UI workflow tests
+designappwai2/             Updated reference design; not app runtime
+~~~
+
+Flutter uses Material widgets and local state primitives with a shared ChangeNotifier store. Tabs retain their state. Writes are serialized, persistence errors are surfaced and damaged stored data is not automatically overwritten.
+
+## Verification
+
+~~~bash
+flutter analyze
+flutter test
+node --test server/server.test.mjs
+flutter build apk --debug --target-platform android-arm64
+~~~
+
+Tests cover saved data round trips, duplicate applications, task status transitions, malformed storage, relevant clarification questions, search, mobile navigation, retained chat, edited specification publication and wide-screen layout. Server tests use mocked responses and make no paid API calls.
+
+A practical walkthrough:
+
+1. Open **Profile → Кәсіпкер → Жаңа тапсырма**.
+2. Enter a flower-delivery project, a problem, a budget and a duration.
+3. Select multiple catalog options and add a custom requirement.
+4. Complete the other steps, edit the final specification and publish.
+5. Open the published card from discovery.
+6. Switch to the student role, apply and inspect **Жауаптар**.
+7. Return to business mode and accept the application.
+8. Submit a solution from **Тапсырмалар**, then review it in business mode.
+9. Send a message, switch tabs and restart the app to check retention.
+
+## Before a public release
+
+The local demo needs authenticated server accounts, a shared database, authorized company messaging, attachment storage and a deployed HTTPS AI backend before supporting real independent users. The included Node server is loopback-only development infrastructure. Android still uses the example application ID and development signing.
+
+The design reference is preserved separately. Its web code and example API configuration are not consumed by Flutter.
+
+---
+
+Built for the **AI SANA** practical hackathon case. The product is **Work.ai**.
